@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    ViewBag.Title = "ShopType";
+    Layout = null;
+}
 <html>
 <head>
     <meta charset="utf-8" />
@@ -38,11 +42,19 @@
             height: 300px;
             float: left;
         }
+
+        #divTop {
+            width: 100%;
+            height: 100px;
+            float: left;
+        }
     </style>
 </head>
 <body>
     <div id="divMax">
-
+        <div id="divTop">
+            <a href="" class="layui-btn" style="margin-left:220px;margin-top:20px">添加商品</a>
+        </div>
         <hr / style="margin-top:100px">
         <div id="divTable1">
             <p>目前已有的人群类型</p>
@@ -169,7 +181,7 @@
         var obj = {
             Stname: $("#Text2").val()
         }
-        if (obj.Stname=="") 
+        if (obj.Stname=="")
         {
             alert("请输入衣服类别");
             return;
