@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../Scripts/jquery-3.4.1.js"></script>
+    <link href="../layui/css/layui.css" rel="stylesheet" />
+    <script src="../layui/layui.js"></script>
+    <style>
+        #divMax {
+            width: 100%;
+            height: 721px;
+            float: left;
+        }
+
+        #divTable1 {
+            width: 200px;
+            float: left;
+            margin-left: 220px;
+        }
+
+        #divTable1Add {
+            border: dashed;
+            width: 200px;
+            height: 300px;
+            float: left;
+        }
+
+        #divTable2 {
+            width: 200px;
+            float: left;
+            margin-left: 50px;
+        }
+
+        #divTable2Add {
+            border: dashed;
+            width: 200px;
+            height: 300px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="divMax">
+
+        <hr / style="margin-top:100px">
+        <div id="divTable1">
+            <p>目前已有的人群类型</p>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>类型名称</th>
+                    </tr>
+                </thead>
+                <tbody id="tb1">
+                </tbody>
+            </table>
+        </div>
+        <div id="divTable1Add">
+            <table>
+                <tr>
+                    <td><input id="Text1" type="text" class="layui-input" placeholder="请输入想添加的人群类型" style="margin-top:30px; margin-left:5px;" /></td>
+                </tr>
+                <tr>
+                    <td><input id="Button1" type="button" value="保存" class="layui-btn" style="margin-top:20px;margin-left:60px;" onclick="Add1()" /></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="divTable2">
+            <p>目前已有衣服类型</p>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>类型名称</th>
+                    </tr>
+                </thead>
+                <tbody id="tb2">
+                </tbody>
+            </table>
+        </div>
+        <div id="divTable2Add">
+            <table>
+                <tr>
+                    <td><input id="Text2" type="text" class="layui-input" placeholder="请输入想添加的衣服类型" style="margin-top:30px; margin-left:5px;" /></td>
+                </tr>
+                <tr>
+                    <td><input id="Button1" type="button" value="保存" class="layui-btn" style="margin-top:20px;margin-left:60px;" onclick="Add2()" /></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    BigShow();
+    SmallShow();
+    function BigShow() {
+        //大类型展示
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/GetBigType",
+            type: "Get",
+            success: function (d) {
+                $(d).each(function () {
+                    var a = '<tr>'
+                        + '<th>' + this.Btid + '</th>'
+                        + '<th>' + this.Btname + '</th>'
+                        + '</tr>'
+                    $("#tb1").append(a);
+                })
+            }
+        })
+    }
+    function SmallShow() {
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/GetSmallType",
+            type: "Get",
+            success: function (d) {
+                $(d).each(function () {
+                    var b = '<tr>'
+                        + '<th>' + this.Stid + '</th>'
+                        + '<th>' + this.Stname + '</th>'
+                        + '</tr>'
+                    $("#tb2").append(b);
+                })
+            }
+        })
+    }
+    //人群类别添加
+    function Add1() {
+        var obj = {
+            Btname: $("#Text1").val()
+        }
+        if (obj.Btname=="") {
+            alert("请输入人群");
+            return;
+        }
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/PostBigType",
+            type: "Post",
+            data: obj,
+            success: function (d) {
+                if (d > 0) {
+                    alert("添加成功！");
+
+                }
+                else {
+                    alert("添加失败请重试！");
+                }
+            }
+        })
+    }
+    function Add2() {
+        var obj = {
+            Stname: $("#Text2").val()
+        }
+        if (obj.Stname=="") 
+        {
+            alert("请输入衣服类别");
+            return;
+        }
+
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/PostSmallType",
+            type: "Post",
+            data: obj,
+            success: function (d) {
+                if (d > 0) {
+                    alert("添加成功！");
+                    SmallShow();
+
+                }
+                else {
+                    alert("添加失败请重试！");
+                }
+            }
+        })
+    }
+</script>
