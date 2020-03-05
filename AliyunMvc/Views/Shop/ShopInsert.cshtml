@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "ShopInsert";
+    Layout = null;
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #divMax {
+            width: 100%;
+            height: 713px;
+            float: left;
+        }
+
+        #divbody {
+            height: 713px;
+            width: 70%;
+            float: left;
+            margin-left: 230px;
+        }
+
+        .tr {
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="divMax">
+        <div id="divbody">
+
+            <table style="margin-top:20px;margin-left:50px;" class="table">
+                <tr>
+                    <td><span style="color:red">*</span>商品分类：</td>
+                    <td><select id="Select1"><option value="0">请选择适合人群</option></select>   <select id="Select2"><option value="0">请选择衣服种类</option></select></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品类型：</td>
+                    <td><input id="Radio1" type="radio" name="Six" checked="checked" />普通商品  <input id="Radio2" type="radio" name="Six" />帮Ta付商品</td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品名称：</td>
+                    <td><input id="txtName" type="text" class="layui-input" placeholder="请输入商品名称" /></td>
+                </tr>
+
+                <tr>
+                    <td><span style="color:red">*</span>商品标题：</td>
+                    <td><input id="txttitle" type="text" class="layui-input" placeholder="请输入标题" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品图片：</td>
+                    <td><input id="File1" type="file" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品颜色：</td>
+                    <td><input id="txtColor" type="text" class="layui-input" placeholder="请输入颜色" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品尺码：</td>
+                    <td><input id="txtSize" type="text" class="layui-input" placeholder="请输入尺码" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品型号：</td>
+                    <td><input id="txtNumr" type="text" class="layui-input" placeholder="请输入型号" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>库存量：</td>
+                    <td><input id="txtCount" type="text" class="layui-input" placeholder="请输入库存量" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>商品价格：</td>
+                    <td><input id="txtPrice" type="text" class="layui-input" placeholder="请输入价格" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>赠送积分：</td>
+                    <td><input id="txtScore" type="text" class="layui-input" placeholder="请输入积分" /></td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>是否上架：</td>
+                    <td><input id="Radio5" type="radio" name="b" checked="checked" />是 <input id="Radio6" type="radio" name="b" />否</td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>售后信息：</td>
+                    <td><input id="Radio3" type="radio" name="a" checked="checked" />是 <input id="Radio4" type="radio" name="a" />否</td>
+                </tr>
+                <tr>
+                    <td><span style="color:red">*</span>详情描述：</td>
+                    <td><textarea id="TextArea1" rows="2" cols="20"></textarea></td>
+                </tr>
+                <tr>
+                    <td><input id="Button1" type="button" value="保存" class="layui-btn" onclick="AddShop()" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    //人群下拉选择
+    $.ajax({
+        url: "https://localhost:44340/api/Shop/GetBigType",
+        type: "Get",
+        success: function (d) {
+            $(d).each(function () {
+                var a = '<option value="' + this.Btid + '">' + this.Btname + '</option>'
+                $("#Select1").append(a);
+            })
+        }
+
+    });
+    //衣服类型下拉
+    $.ajax({
+        url: "https://localhost:44340/api/Shop/GetSmallType",
+        type: "Get",
+        success: function (d) {
+            $(d).each(function () {
+                var b = '<option value="' + this.Stid + '">' + this.Stname + '</option>'
+                $("#Select2").append(b);
+            })
+        }
+
+    });
+    //添加
+    function AddShop() {
+        var obj = {
+            Stype: ($("#Radio1").val())==true?0:1,
+            Sname: $("#txtName").val(),
+            Stitle: $("#txttitle").val(),
+            Simg: $("#File1").val(),
+            Scolor: $("#txtColor").val(),
+            Ssize: $("#txtSize").val(),
+            Ssnum: $("#txtNumr").val(),
+            Sstock: $("#txtCount").val(),
+            Sprice: $("#txtName").val(),
+            Sname: $("#txtPrice").val(),
+            Sscore: $("#txtPrice").val(),
+            Sdescribe: $("#TextArea1").val(),
+            Safter: ($("#Radio3").val())== true ? 0 : 1,
+            Btid: $("#Select1").val(),
+            Stid: $("#Select2").val(),
+            Sname: $("#txtName").val(),
+            Sstate: ($("#Radio5").val()) == true ? 0 : 1,
+            MerchantId: 1
+        }
+        if (obj.Btid == 0) {
+            alert("请选择人群类别!");
+            return;
+        }
+        if (obj.Stid == 0) {
+            alert("请选择人群类别!");
+            return;
+        }
+        if (obj.Sname == "") {
+            alert("请输入商品名称!");
+            return;
+        }
+        if (obj.Stitle=="") {
+            alert("请输入商品标题!");
+            return;
+        }
+        if (obj.Simg=="") {
+            alert("请选择图片");
+            return;
+        }
+        if (obj.Scolor=="") {
+            alert("请输入颜色");
+            return;
+        }
+        if (obj.Ssize=="") {
+            alert("请输入尺码");
+            return;
+        }
+        if (obj.Ssnum=="") {
+            alert("请输入型号");
+            return;
+        }
+        if (obj.Sstock=="") {
+            alert("请输入库存量");
+            return;
+        }
+        if (obj.Sprice=="") {
+            alert("请输入价格");
+            return;
+        }
+        if (obj.Sscore=="") {
+            alert("请输入赠送积分");
+            return;
+        }
+        if (obj.Sdescribe=="") {
+            alert("请输入商品描述");
+            return;
+        }
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/PostShop",
+            type: "Post",
+            data: obj,
+            success: function (d) {
+                if (d>0) {
+                    alert("添加成功!");
+                }
+                else {
+                    alert("添加失败请重试!");
+                }
+            }
+        })
+    }
+
+</script>
