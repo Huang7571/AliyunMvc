@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>管理员</td>
+            <td>
+                <select id="Select1" name="Aid">
+                    <option value="1">管理员</option>
+                    <option value="2">产品部</option>
+                    <option value="3">运营部</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>权限</td>
+            <td>
+                <input id="Checkbox1" type="checkbox" value="商品管理" name="MenuName" /><span>商品管理</span>
+                <input id="Checkbox1" type="checkbox" value="订单管理" name="MenuName" />订单管理
+                <input id="Checkbox1" type="checkbox" value="查看商品类型" name="MenuName" />查看商品类型
+                <input id="Checkbox1" type="checkbox" value="编辑商品类型" name="MenuName" />编辑商品类型
+                <input id="Checkbox1" type="checkbox" value="商品编辑" name="MenuName" />商品编辑
+                <input id="Checkbox1" type="checkbox" value="商品添加" name="MenuName" />商品添加
+                <input id="Checkbox1" type="checkbox" value="商品上架" name="MenuName" />商品上架
+                <input id="Checkbox1" type="checkbox" value="查看订单详情" name="MenuName" />查看订单详情
+                <input id="Checkbox1" type="checkbox" value="接收订单" name="MenuName" />接收订单
+                <input id="Checkbox1" type="checkbox" value="查看订单待处理" name="MenuName" />查看订单待处理
+                <input id="Checkbox1" type="checkbox" value="订单发货" name="MenuName" />订单发货
+                <input id="Checkbox1" type="checkbox" value="查看订单发货" name="MenuName" />查看订单发货
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input id="Submit1" type="submit" value="提交" /></td>
+        </tr>
+    </table>
+}
+
