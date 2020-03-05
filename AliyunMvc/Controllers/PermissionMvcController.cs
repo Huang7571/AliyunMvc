@@ -26,5 +26,10 @@ namespace AliyunMvc.Controllers
 				Response.Write("<script>alert('修改成功!')</script>");
 			}
 		}
+		public ActionResult QuanXian()
+		{
+
+			return View();
+		}
 	}
 }
