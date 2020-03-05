@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+using Newtonsoft.Json;
+using AliyunMvc.Models;
 
 namespace AliyunMvc.Controllers
 {
@@ -11,6 +14,7 @@ namespace AliyunMvc.Controllers
     /// </summary>
     public class ShopController : Controller
     {
+        HttpClientHelper helper = new HttpClientHelper("https://localhost:44346/Shop/");
         /// <summary>
         /// 商品类别添加显示
         /// </summary>
@@ -25,6 +29,17 @@ namespace AliyunMvc.Controllers
         /// <returns></returns>
         public ActionResult ShopInsert()
         {
+            return View();
+        }
+        /// <summary>
+        /// 商品展示
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ShopShow()
+        {
+            string json = helper.Get("GetShop");
+            List<Shop> list = JsonConvert.DeserializeObject<List<Shop>>(json);
+            ViewBag.Shop = list;
             return View();
         }
     }
