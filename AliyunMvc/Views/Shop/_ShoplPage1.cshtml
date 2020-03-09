@@ -1,0 +1,120 @@
+﻿@using AliyunMvc.Models
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<link href="~/layui/css/layui.css" rel="stylesheet" />
+<script src="~/layui/layui.js"></script>
+<style>
+    #divMax {
+        width: 100%;
+        height: 721px;
+        float: left;
+    }
+
+    #divbody {
+        height: 721px;
+        width: 70%;
+        float: left;
+        margin-left: 100px;
+    }
+
+    #divtop {
+        height: 70px;
+        width: 1065px;
+        float: left;
+        margin-left: -230px;
+    }
+
+    #divbottom {
+        width: 1076px;
+        height: 636px;
+        float: left;
+    }
+
+    #divShop {
+        width: 200px;
+        height: 220px;
+        float: left;
+        margin-left: 50px;
+    }
+
+    .img {
+        width: 140px;
+        height: 140px;
+        margin-left: 30px;
+        margin-top: 10px;
+        float: left;
+    }
+
+    .Price {
+        margin-left: 30px;
+        color: #f5d210
+    }
+
+    .Name {
+        color: #ff0000;
+        margin-left: 40px;
+    }
+
+    #divPager {
+        margin-top: 603px;
+        margin-left: 80px;
+    }
+</style>
+<div id="divMax">
+    <div id="divbody">
+        <div id="divbody">
+            <div id="divtop">
+                <a href="https://localhost:44346/Shop/ShopInsert" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品</a><a href="https://localhost:44346/Shop/ShopType" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品类别</a>
+                @using (Ajax.BeginForm("Pager", new AjaxOptions { UpdateTargetId = "divData" }))
+                {
+                    <input style="margin-left:500px;margin-top:25px; width:200px;" class="layui-input"  id="Text1" type="text" name="Sname" placeholder="请输入要查询的商品名称" />
+                    <input id="Submit1" style="margin-left:720px; margin-top:-35px;" type="submit" value="查询" 	class="layui-btn layui-btn-radius layui-btn-primary" />
+                }
+                <hr />
+                <div id="divbottom">
+                    @foreach (var item in (List<Shop>)ViewBag.Shop)
+                    {
+                        <div id="divShop">
+
+                            <img src="@item.Simg" class="img" />
+                            <h2 class="Price">@item.Sprice</h2>
+                            <h3 class="Name">@item.Sname</h3>
+                            <span>@item.Sid</span>
+                            <i style="margin-left:80px;" class="layui-icon layui-icon-edit" onclick="Bj(@item.Sid)"></i>
+                            <i class="layui-icon layui-icon-close" onclick="Xj(@item.Sid)"></i>
+                            <br>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div style="float:left;margin-top:500px;margin-left:180px;">@Ajax.ActionLink("首页", "Pager", new { @pageIndex = 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("上一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) - 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="        float: left;
+        margin-top: 500px;
+        margin-left: 20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+        </div>
+    </div>
+</div>
+<script>
+    var n = 1;
+    //编辑
+    function Bj(b) {
+        location.href = 'https://localhost:44346/Shop/ShopUpdate';
+        var storage = window.sessionStorage;
+        storage.setItem('Ids', b);
+    }
+    //下架
+    function Xj(a) {
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/GetDeleteShop",
+            type: "Get",
+            data: { id: a },
+            success: function (d) {
+                if (d > 0) {
+                    alert("删除成功!");
+                    location.href = 'https://localhost:44346/Shop/ShopShow';
+                }
+            }
+        })
+    }
+</script>

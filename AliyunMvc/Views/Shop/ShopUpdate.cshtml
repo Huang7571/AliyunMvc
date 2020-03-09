@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ShopInsert";
+    ViewBag.Title = "ShopUpdate";
     Layout = Layout = "~/Views/Shared/_LayoutMaster.cshtml";
 }
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -38,7 +38,10 @@
             <table style="margin-top:20px;margin-left:50px;" class="table">
                 <tr>
                     <td><span style="color:red">*</span>商品分类：</td>
-                    <td><select id="Select1"><option value="0">请选择适合人群</option></select>   <select id="Select2"><option value="0">请选择衣服种类</option></select></td>
+                    <td>
+                        <select id="Select1"><option value="0">请选择适合人群</option></select>
+                        <select id="Select2"><option value="0">请选择衣服种类</option></select>
+                    </td>
                 </tr>
                 <tr>
                     <td><span style="color:red">*</span>商品类型：</td>
@@ -52,14 +55,6 @@
                 <tr>
                     <td><span style="color:red">*</span>商品标题：</td>
                     <td><input id="txttitle" type="text" class="layui-input" placeholder="请输入标题" /></td>
-                </tr>
-                <tr>
-                    <td><span style="color:red">*</span>商品图片：</td>
-                    <td>
-                        <input id="file" type="file" name="file" onchange="uploadImg()" />
-                        <input id="avatar" type="hidden" name="avatar" />
-                        <img src="" alt="" id="avatarShow" width="100" height="100" />
-                    </td>
                 </tr>
                 <tr>
                     <td><span style="color:red">*</span>商品颜色：</td>
@@ -106,73 +101,74 @@
 </body>
 </html>
 <script>
-    //人群下拉选择
+    SelShow();
+    var storage = window.sessionStorage;
+    var id = storage.getItem('Ids');
+    //反填
     $.ajax({
-        url: "https://localhost:44340/api/Shop/GetBigType",
+        url: "https://localhost:44340/api/Shop/GetFoundShop",
         type: "Get",
+        data: { id: id },
         success: function (d) {
+            console.log(d);
             $(d).each(function () {
-                var a = '<option value="' + this.Btid + '">' + this.Btname + '</option>'
-                $("#Select1").append(a);
+                $("#Select1").val(this.Btid);
+                $("#Select2").val(this.Stid);
+                $("#Radio1").val(this.Stype);
+                $("#txtName").val(this.Sname);
+                $("#txttitle").val(this.Stitle);
+                $("#txtColor").val(this.Scolor);
+                $("#txtSize").val(this.Ssize);
+                $("#txtNumr").val(this.Ssnum);
+                $("#txtCount").val(this.Sstock);
+                $("#txtPrice").val(this.Sprice);
+                $("#txtScore").val(this.Sscore);
+                $("#Radio5").val(this.Sstate);
+                $("#Radio3").val(this.Safter);
+                $("#TextArea1").val(this.Sdescribe);
             })
-        }
-    });
-    //衣服类型下拉
-    $.ajax({
-        url: "https://localhost:44340/api/Shop/GetSmallType",
-        type: "Get",
-        success: function (d) {
-            $(d).each(function () {
-                var b = '<option value="' + this.Stid + '">' + this.Stname + '</option>'
-                $("#Select2").append(b);
-            })
-        }
 
-    });
-    var lj = "";
-    //图片上传
-    function uploadImg() {
-        var formData = new FormData();
-        formData.append("file", $("#file")[0].files[0]);
+        }
+    })
+
+    function SelShow() {
+        //人群下拉
         $.ajax({
-            url: "/Shop/FileUpLoad",
-            type: 'POST',
-            data: formData,
-            // 告诉jQuery不要去处理发送的数据
-            processData: false,
-            // 告诉equerry不要去设置Content-Type请求头
-            contentType: false,
-            beforeSend: function () {//发送之前
-                console.log("正在进行，请稍候");
-            },
-            success: function (data) {
-                if (data != "") {
-                    $("#avatarShow").attr("src", data);//图片路径
-                    lj = data;
-                    var sss = sessionStorage
-                } else {
-                    console.log("上传失败");
-                }
-            },
-            error: function (responseStr) {
-                console.log("error");
+            url: "https://localhost:44340/api/Shop/GetBigType",
+            type: "Get",
+            success: function (d) {
+                $(d).each(function () {
+                    var a = '<option value="' + this.Btid + '">' + this.Btname + '</option>'
+                    $("#Select1").append(a);
+                })
             }
+
+        });
+        //衣服类型下拉
+        $.ajax({
+            url: "https://localhost:44340/api/Shop/GetSmallType",
+            type: "Get",
+            success: function (d) {
+                $(d).each(function () {
+                    var b = '<option value="' + this.Stid + '">' + this.Stname + '</option>'
+                    $("#Select2").append(b);
+                })
+            }
+
         });
     }
-
     //添加
     function AddShop() {
         var obj = {
+            Sid: id,
             Stype: $('input[name="Six"]:checked').val() == "on" ? false : true,
             Sname: $("#txtName").val(),
             Stitle: $("#txttitle").val(),
-            Simg: lj,
             Scolor: $("#txtColor").val(),
             Ssize: $("#txtSize").val(),
             Ssnum: $("#txtNumr").val(),
             Sstock: $("#txtCount").val(),
             Sprice: $("#txtPrice").val(),
-            Sname: $("#txtPrice").val(),
             Sscore: $("#txtPrice").val(),
             Sdescribe: $("#TextArea1").val(),
             Safter: $('input[name="a"]:checked').val() == "on" ? false : true,
@@ -195,10 +191,6 @@
         }
         if (obj.Stitle == "") {
             alert("请输入商品标题!");
-            return;
-        }
-        if (obj.Simg == "") {
-            alert("请选择图片");
             return;
         }
         if (obj.Scolor == "") {
@@ -229,21 +221,20 @@
             alert("请输入商品描述");
             return;
         }
+        console.log(obj);
         $.ajax({
-            url: "https://localhost:44340/api/Shop/PostShop",
+            url: "https://localhost:44340/api/Shop/UpdateShop",
             type: "Post",
             data: obj,
             success: function (d) {
                 if (d > 0) {
-                    alert("添加成功!");
+                    alert("修改成功!");
                     location.href = 'https://localhost:44346/Shop/ShopShow';
                 }
                 else {
-                    alert("添加失败请重试!");
+                    alert("修改失败请重试!");
                 }
             }
         })
     }
-
 </script>
-
