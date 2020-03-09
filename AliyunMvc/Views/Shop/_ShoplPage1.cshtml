@@ -7,15 +7,13 @@
         width: 100%;
         height: 721px;
         float: left;
-        background-color: aliceblue;
     }
 
     #divbody {
         height: 721px;
         width: 70%;
         float: left;
-        margin-left: 230px;
-        background: #ffffff;
+        margin-left: 100px;
     }
 
     #divtop {
@@ -65,15 +63,19 @@
     <div id="divbody">
         <div id="divbody">
             <div id="divtop">
-                <a href="https://localhost:44346/Shop/ShopInsert" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品</a>
-                <input id="txtName" type="text" class="layui-input" style="width: 200px; height: 40px; margin-left: 671px; margin-top: 25px; float: left" /><input id="Button1" onclick="Cx()" type="button" value="查询" class="layui-btn layui-btn-radius layui-btn-primary" style="margin-top:25px;" />
+                <a href="https://localhost:44346/Shop/ShopInsert" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品</a><a href="https://localhost:44346/Shop/ShopType" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品类别</a>
+                @using (Ajax.BeginForm("Pager", new AjaxOptions { UpdateTargetId = "divData" }))
+                {
+                    <input style="margin-left:500px;margin-top:25px; width:200px;" class="layui-input"  id="Text1" type="text" name="Sname" placeholder="请输入要查询的商品名称" />
+                    <input id="Submit1" style="margin-left:720px; margin-top:-35px;" type="submit" value="查询" 	class="layui-btn layui-btn-radius layui-btn-primary" />
+                }
                 <hr />
                 <div id="divbottom">
                     @foreach (var item in (List<Shop>)ViewBag.Shop)
                     {
                         <div id="divShop">
 
-                            <img src="~/Image/1583579782006.09.png" class="img" />
+                            <img src="@item.Simg" class="img" />
                             <h2 class="Price">@item.Sprice</h2>
                             <h3 class="Name">@item.Sname</h3>
                             <span>@item.Sid</span>
@@ -86,7 +88,9 @@
             </div>
             <div style="float:left;margin-top:500px;margin-left:180px;">@Ajax.ActionLink("首页", "Pager", new { @pageIndex = 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
             <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("上一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) - 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-            <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="        float: left;
+        margin-top: 500px;
+        margin-left: 20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
             <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
         </div>
     </div>

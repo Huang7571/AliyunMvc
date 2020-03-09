@@ -57,27 +57,27 @@ namespace AliyunMvc.Controllers
         /// <param name="pageSize"></param>
         /// <param name="Sname"></param>
         /// <returns></returns>
-        public ActionResult Pager(int pageIndex=1,int pageSize=8,string Sname=null)
+        public ActionResult Pager(int pageIndex = 1, int pageSize = 8, string Sname = null)
         {
-            Pager pager = new Pager()
-            {
-                 pageIndex=pageIndex,
-                 pageSize=pageSize,
-                 Sname=Sname,
-            };
-            if (pageIndex<=1)
+            if (pageIndex <= 1)
             {
                 pageIndex = 1;
             }
-            if (pageIndex>=Convert.ToInt32(Session["pagerLast"]))
+            if (pageIndex >= Convert.ToInt32(Session["pagerLast"]))
             {
                 pageIndex = Convert.ToInt32(Session["pagerLast"]);
             }
+            Pager pager = new Pager()
+            {
+                pageIndex = pageIndex,
+                pageSize = pageSize,
+                Sname = Sname,
+            };
             string json = helper.Post("PostShopShow", JsonConvert.SerializeObject(pager));
             ReturnModel returnMode = JsonConvert.DeserializeObject<ReturnModel>(json);
             int totalCount = returnMode.TotalCount;
             int pagerLast = (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);
-            Session["pagerLast"] = pageSize;
+            Session["pagerLast"] = pagerLast;
             List<Shop> shops = returnMode.list;
             ViewBag.Shop = shops;
             Session["pageIndex"] = pageIndex;
@@ -89,13 +89,17 @@ namespace AliyunMvc.Controllers
         }
         //上传图片
         [HttpPost]
-        public ActionResult Img(HttpPostedFileBase shangchuan)
+        public string FileUpLoad()
         {
-            string path = @"\upload\" + DateTime.Now.ToFileTime() + ".jpg";
-            Session["path"] = path;
-            string save = Server.MapPath(path);
-            shangchuan.SaveAs(save);
-            return Content(path);
+            HttpPostedFileBase img = Request.Files["file"];
+            string p = "";
+            //判断是否上传了图片
+            if (img != null)
+            {
+                p = "/Image/" + Path.GetFileName(img.FileName);
+                img.SaveAs(Server.MapPath(p));
+            }
+            return p;
         }
     }
 }

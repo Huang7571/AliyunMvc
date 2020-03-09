@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "ShopType";
-    Layout = null;
+    Layout = Layout = "~/Views/Shared/_LayoutMaster.cshtml";
 }
 <html>
 <head>
@@ -20,7 +20,7 @@
         #divTable1 {
             width: 200px;
             float: left;
-            margin-left: 220px;
+            margin-left: 100px;
         }
 
         #divTable1Add {
@@ -159,7 +159,7 @@
         var obj = {
             Btname: $("#Text1").val()
         }
-        if (obj.Btname=="") {
+        if (obj.Btname == "") {
             alert("请输入人群");
             return;
         }
@@ -182,8 +182,7 @@
         var obj = {
             Stname: $("#Text2").val()
         }
-        if (obj.Stname=="")
-        {
+        if (obj.Stname == "") {
             alert("请输入衣服类别");
             return;
         }
