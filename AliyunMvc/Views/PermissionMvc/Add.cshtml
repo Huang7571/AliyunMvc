@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+@using AliyunMvc.Controllers
+<h2 style="color:black">添加用户</h2>
+@using (Html.BeginForm())
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>用户名</td>
+            <td><input id="Text1" type="text" name="MerchantName" /></td>
+        </tr>
+        <tr>
+            <td>邮箱</td>
+            <td><input id="Text1" type="text" name="MerchantEmail" /></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input id="Text1" type="password" name="MerchantPwd" /></td>
+        </tr>
+        <tr>
+            <td>权限分组</td>
+            <td>
+                <select id="Select1" name="Aid">
+                    @foreach (Administrator item in ViewBag.PerTable as List<Administrator>)
+                    {
+
+                        <option value="@item.Aid">@item.AdministratorName</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>商家备注</td>
+            <td><input id="Text1" type="text" name="MerchantContent" /></td>
+        </tr>
+        <tr>
+            <td>状态</td>
+            <td>
+                <input id="Radio1" type="radio" name="MerchantState" checked="checked" />启用
+                <input id="Radio1" type="radio" name="MerchantState" />禁用
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input id="Button1" type="submit" value="button" /></td>
+        </tr>
+    </table>
+}

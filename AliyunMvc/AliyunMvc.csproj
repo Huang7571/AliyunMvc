@@ -120,8 +120,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CookieHelper.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HttpClientHelper.cs" />
+    <Compile Include="Controllers\LognController.cs" />
     <Compile Include="Controllers\PermissionMvcController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
@@ -204,10 +206,12 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="HtmlPage1.html" />
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\css\layui.mobile.css" />
     <Content Include="layui\css\modules\code.css" />
@@ -316,6 +320,15 @@
     <Content Include="obj\Debug\AliyunMvc.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\AliyunMvc.dll" />
     <Content Include="obj\Debug\AliyunMvc.pdb" />
+    <Content Include="obj\QQ图片20200309155030.jpg" />
+    <Content Include="obj\QQ图片20200309155056.jpg" />
+    <Content Include="obj\QQ图片20200309155140.jpg" />
+    <Content Include="obj\QQ图片20200309170828.jpg" />
+    <Content Include="obj\QQ图片20200309170836.jpg" />
+    <Content Include="obj\QQ图片20200309171315.png" />
+    <Content Include="obj\QQ图片20200309171319.png" />
+    <Content Include="obj\QQ图片20200309171327.png" />
+    <Content Include="obj\QQ图片20200309171335.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="bin\AliyunMvc.dll.config" />
@@ -368,6 +381,10 @@
     <Content Include="Views\Shop\ShopType.cshtml" />
     <Content Include="Views\Shared\_LayoutMaster.cshtml" />
     <Content Include="Views\PermissionMvc\QuanXian.cshtml" />
+    <Content Include="Views\PermissionMvc\PerDeit.cshtml" />
+    <Content Include="Views\PermissionMvc\Add.cshtml" />
+    <Content Include="Views\Logn\Login.cshtml" />
+    <Content Include="Views\Logn\ShouYe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

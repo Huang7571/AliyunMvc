@@ -1,0 +1,197 @@
+﻿
+@{
+    ViewBag.Title = "ShouYe";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+
+<body>
+
+
+    <div class="layui-carousel" id="test10" style="width:100%;background-color:red">
+        <div carousel-item="" style="background-color:red">
+            <div><img src="~/obj/QQ图片20200309155030.jpg " width="1330"></div>
+            <div><img src="~/obj/QQ图片20200309155056.jpg" width="1330"></div>
+            <div><img src="~/obj/QQ图片20200309155140.jpg" width="1330"></div>
+            <div><img src="~/obj/QQ图片20200309170828.jpg" width="1330"></div>
+            <div><img src="~/obj/QQ图片20200309170836.jpg" width="1330"></div>
+
+        </div>
+    </div>
+    <div id="MaserDIV" style="width:100%;height:250px">
+        <div style="width:25%;height:200px;background-color:blue;float:left;margin-right:150px;border-radius:30px;box-shadow:4px 5px 6px 7px rgba(0,0,0,.5)"></div>
+        <div style="width:25%;height:200px;background-color:lightcoral;float:left;margin-right:150px;border-radius:30px ;box-shadow:4px 5px 6px 7px rgba(0,0,0,.5)"></div>
+        <div style="width:25%;height:200px;background-color:indigo;float:left;border-radius:30px;box-shadow:4px 5px 6px 7px rgba(0,0,0,.5)"></div>
+    </div>
+    <div style="width:50%;height:500px;background-color:white;border-radius:10px">
+        <div style="width:100%;height:100px">
+            <div style="width:200px;height:50px;float:left;margin-top:25px ;"><h2>待办事项</h2></div>
+        </div>
+        <div style="width:100%;height:100px">
+            <div style="width:50px;height:50px;float:left;margin-top:25px">
+                <img src="~/obj/QQ图片20200309171315.png" />
+            </div>
+            <div style="width:80%;height:100px;float:left; ">
+                <div style="width:100%;height:30px;">
+                    <span>新手任务1:开始创建一个属于你的产品[待处理]</span>
+                </div>
+                <div style="width:100%;height:30px; ">
+                    <span>商家产品重要的一步,就是为你的产品穿上花了的外套(文案) ,好的产品描述</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>还可以促进你和客户之间的关系，仅可提高销售量，还可提高复购率哦~</span>
+                </div>
+            </div>
+            <div style="width:10%;height:50px;float:left;margin-top:25px">
+                @if (Session["MenuName"].ToString().Contains("商品添加"))
+                {
+                    <input id="Button1" type="button" class="layui-btn layui-btn-normal" value="添加商品" />
+                }
+
+            </div>
+        </div>
+        <div style="width:100%;height:100px;">
+            <div style="width:50px;height:50px;float:left;margin-top:25px">
+                <img src="~/obj/QQ图片20200309171319.png" />
+            </div>
+            <div style="width:80%;height:100px;float:left; ">
+                <div style="width:100%;height:30px;">
+                    <span>共有30条待处理订单</span>
+                </div>
+                <div style="width:100%;height:30px; ">
+                    <span>商家产品重要的一步,就是为你的产品穿上花了的外套(文案)，好的产品描述还可以促进</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>你和客户之间的关系，仅可提高销售量，还可提高复购率哦~</span>
+                </div>
+            </div>
+            <div style="width:10%;height:50px;float:left;margin-top:25px">
+                @if (Session["MenuName"].ToString().Contains("查看订单待处理"))
+                {
+                    <input id="Button1" type="button" class="layui-btn layui-btn-normal" value="立即处理
+                       " />
+                }
+
+            </div>
+        </div>
+        <div style="width:100%;height:100px;">
+            <div style="width:50px;height:50px;float:left;margin-top:25px">
+                <img src="~/obj/QQ图片20200309171327.png" />
+            </div>
+            <div style="width:80%;height:100px;float:left; ">
+                <div style="width:100%;height:30px;">
+                    <span>共有25条待换货订单</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>商家产品重要的一步就是为你的产品穿上花了的外套(文案) ,好的产品描述还可以促进你和客户之间的关</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>
+                        系，仅可提高销售量，还可提高复购率哦~
+                    </span>
+                </div>
+            </div>
+            <div style="width:10%;height:50px;float:left;margin-top:25px">
+                @if (Session["MenuName"].ToString().Contains("查看订单发货"))
+                {
+                    <input id="Button1" type="button" class="layui-btn layui-btn-normal" value="立即处理" />
+                }
+
+            </div>
+        </div>
+        <div style="width:100%;height:100px">
+            <div style="width:50px;height:50px;float:left;margin-top:25px">
+                <img src="~/obj/QQ图片20200309171335.png" />
+            </div>
+            <div style="width:80%;height:100px;float:left;">
+                <div style="width:100%;height:30px; ">
+                    <span>共有450件商品审核不通过</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>商家产品重要的一步就是为你的产品穿上花了的外套(文案) ,好的产品描述还可以促进你和客户</span>
+                </div>
+                <div style="width:100%;height:30px;">
+                    <span>之间的关系，仅可提高销售量，还可提高复购率哦~</span>
+                </div>
+            </div>
+            <div style="width:10%;height:50px;float:left;margin-top:25px">
+                @if (Session["MenuName"].ToString().Contains("查看订单详情"))
+                {
+                    <input id="Button1" type="button" class="layui-btn layui-btn-normal" value="立即处理" />
+                }
+
+            </div>
+        </div>
+    </div>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+        layui.use(['carousel', 'form'], function () {
+            var carousel = layui.carousel
+                , form = layui.form;
+
+            //常规轮播
+            carousel.render({
+                elem: '#test1'
+                , arrow: 'always'
+            });
+
+            //改变下时间间隔、动画类型、高度
+            carousel.render({
+                elem: '#test2'
+                , interval: 1800
+                , anim: 'fade'
+                , height: '120px'
+            });
+
+            //设定各种参数
+            var ins3 = carousel.render({
+                elem: '#test3'
+            });
+            //图片轮播
+            carousel.render({
+                elem: '#test10'
+                , width: '1330px'
+                , height: '440px'
+                , interval: 5000
+            });
+
+            //事件
+            carousel.on('change(test4)', function (res) {
+                console.log(res)
+            });
+
+            var $ = layui.$, active = {
+                set: function (othis) {
+                    var THIS = 'layui-bg-normal'
+                        , key = othis.data('key')
+                        , options = {};
+
+                    othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                    options[key] = othis.data('value');
+                    ins3.reload(options);
+                }
+            };
+
+            //监听开关
+            form.on('switch(autoplay)', function () {
+                ins3.reload({
+                    autoplay: this.checked
+                });
+            });
+
+            $('.demoSet').on('keyup', function () {
+                var value = this.value
+                    , options = {};
+                if (!/^\d+$/.test(value)) return;
+
+                options[this.name] = value;
+                ins3.reload(options);
+            });
+
+            //其它示例
+            $('.demoTest .layui-btn').on('click', function () {
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+        });
+    </script>
+</body>
