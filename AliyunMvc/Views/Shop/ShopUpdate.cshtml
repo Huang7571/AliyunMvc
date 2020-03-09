@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ShopInsert";
+    ViewBag.Title = "ShopUpdate";
     Layout = null;
 }
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -54,13 +54,6 @@
                     <td><input id="txttitle" type="text" class="layui-input" placeholder="请输入标题" /></td>
                 </tr>
                 <tr>
-                    <td><span style="color:red">*</span>商品图片：</td>
-                    <td>
-                        <input type="file" name="file" id="testFile" nultiple="multiple" />
-                        <input type="button" id="btnSend" value="上传" onclick="UploadFile()" />
-                    </td>
-                </tr>
-                <tr>
                     <td><span style="color:red">*</span>商品颜色：</td>
                     <td><input id="txtColor" type="text" class="layui-input" placeholder="请输入颜色" /></td>
                 </tr>
@@ -105,6 +98,34 @@
 </body>
 </html>
 <script>
+    var storage = window.sessionStorage;
+    var id = storage.getItem('Ids');
+    //反填
+    $.ajax({
+        url: "https://localhost:44340/api/Shop/GetFoundShop",
+        type: "Get",
+        data: { id: id },
+        success: function (d) {
+            $(d).each(function () {
+                alert(this.Sname);
+                $("#Select1").val(this.Btid);
+                $("#Select2").val(this.Stid);
+                $("#Radio1").val(this.Stype);
+                $("#txtName").val(this.Sname);
+                $("#txttitle").val(this.Stitle);
+                $("#txtColor").val(this.Scolor);
+                $("#txtSize").val(this.Ssize);
+                $("#txtNumr").val(this.Ssnum);
+                $("#txtCount").val(this.Sstock);
+                $("#txtPrice").val(this.Sprice);
+                $("#txtScore").val(this.Sscore);
+                $("#Radio5").val(this.Sstate);
+                $("#Radio3").val(this.Safter);
+                $("#TextArea1").val(this.Sdescribe);
+            })
+                
+        }
+    })
     //人群下拉选择
     $.ajax({
         url: "https://localhost:44340/api/Shop/GetBigType",
@@ -115,6 +136,7 @@
                 $("#Select1").append(a);
             })
         }
+
     });
     //衣服类型下拉
     $.ajax({
@@ -128,43 +150,14 @@
         }
 
     });
-    var lj = "";
-    function UploadFile() {
-        var formData = new FormData();
-        jQuery.support.cors = true;
-        var file = $("#testFile")[0].files[0];
-        formData.append("file", file);
-        $.ajax({
-            type: "post",
-            url: "https://localhost:44340/api/Shop/FileUpload",
-            data: formData,
-            async: false,
-            /**
-               *必须false才会自动加上正确的Content-Type
-            */
-            contentType: false,
-            /**
-               * 必须false才会避开jQuery对 formdata 的默认处理
-               * XMLHttpRequest会对 formdata 进行正确的处理
-            */
-            processData: false,
-            success: function (data) {
-                console.log(data);
-                lj = data;
-            },
-            error: function (data) {
-                console.log(data.statusText);
-            }
-        });
-    }
-
     //添加
     function AddShop() {
         var obj = {
+            Sid: id,
             Stype: ($("#Radio1").val()) == true ? 0 : 1,
             Sname: $("#txtName").val(),
             Stitle: $("#txttitle").val(),
-            Simg: lj,
+            Simg: $("#testFile").val(),
             Scolor: $("#txtColor").val(),
             Ssize: $("#txtSize").val(),
             Ssnum: $("#txtNumr").val(),
@@ -193,10 +186,6 @@
         }
         if (obj.Stitle == "") {
             alert("请输入商品标题!");
-            return;
-        }
-        if (obj.Simg == "") {
-            alert("请选择图片");
             return;
         }
         if (obj.Scolor == "") {
@@ -228,20 +217,18 @@
             return;
         }
         $.ajax({
-            url: "https://localhost:44340/api/Shop/PostShop",
+            url: "https://localhost:44340/api/Shop/UpdateShop",
             type: "Post",
             data: obj,
             success: function (d) {
                 if (d > 0) {
-                    alert("添加成功!");
+                    alert("修改成功!");
                     location.href = 'https://localhost:44346/Shop/ShopShow';
                 }
                 else {
-                    alert("添加失败请重试!");
+                    alert("修改失败请重试!");
                 }
             }
         })
     }
-
 </script>
-

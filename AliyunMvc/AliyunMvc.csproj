@@ -45,6 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK, Version=2.3.55.2, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.2.3.55.2\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\C#程序引用\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\C#程序引用\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Memcached.ClientLibrary">
+      <HintPath>..\..\C#程序引用\Memcached.ClientLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -127,8 +139,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HttpClientHelper.cs" />
     <Compile Include="Models\BigType.cs" />
+    <Compile Include="Models\Pager.cs" />
+    <Compile Include="Models\ReturnModel.cs" />
     <Compile Include="Models\Shop.cs" />
     <Compile Include="Models\SmallType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,7 +225,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Image\1000531.jpg" />
+    <Content Include="Image\1583423169404.93.png" />
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\css\layui.mobile.css" />
     <Content Include="layui\css\modules\code.css" />
@@ -369,16 +382,19 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\PermissionMvc\Index.cshtml" />
-    <Content Include="Views\Shop\ShopInsert.cshtml" />
     <Content Include="Views\Shop\ShopType.cshtml" />
-    <Content Include="Views\Shop\ShopInsert.cshtml" />
-    <Content Include="Views\Shop\ShopShow.cshtml" />
     <Content Include="Views\Shared\_LayoutMaster.cshtml" />
     <Content Include="Views\PermissionMvc\QuanXian.cshtml" />
+    <Content Include="Views\Shop\ShopInsert.cshtml" />
+    <Content Include="Views\Shop\ShopShow.cshtml" />
+    <Content Include="Views\Error.cshtml" />
+    <Content Include="Views\_Layout.cshtml" />
+    <Content Include="Views\_LayoutMaster.cshtml" />
+    <Content Include="Views\Shop\ShopUpdate.cshtml" />
+    <Content Include="Views\Shop\_ShoplPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
