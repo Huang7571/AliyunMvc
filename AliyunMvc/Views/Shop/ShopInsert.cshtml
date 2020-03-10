@@ -163,7 +163,7 @@
     //添加
     function AddShop() {
         var obj = {
-            Stype: $('input[name="Six"]:checked').val() == "on" ? false : true,
+            Stype: $('input[name="Six"]:checked').val() == true ? 0 : 1,
             Sname: $("#txtName").val(),
             Stitle: $("#txttitle").val(),
             Simg: lj,

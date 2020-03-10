@@ -7,6 +7,7 @@
         width: 100%;
         height: 721px;
         float: left;
+        background-color: aliceblue;
     }
 
     #divbody {
@@ -14,6 +15,7 @@
         width: 70%;
         float: left;
         margin-left: 100px;
+        background-color: aliceblue;
     }
 
     #divtop {
@@ -21,12 +23,14 @@
         width: 1065px;
         float: left;
         margin-left: -230px;
+        background-color: aliceblue;
     }
 
     #divbottom {
         width: 1076px;
         height: 636px;
         float: left;
+        background-color: aliceblue;
     }
 
     #divShop {
@@ -34,6 +38,8 @@
         height: 220px;
         float: left;
         margin-left: 50px;
+        margin-top: 20px;
+        background-color: #ffffff;
     }
 
     .img {
@@ -63,22 +69,22 @@
     <div id="divbody">
         <div id="divbody">
             <div id="divtop">
-                <a href="https://localhost:44346/Shop/ShopInsert" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品</a><a href="https://localhost:44346/Shop/ShopType" class="layui-btn" style="margin-top:25px;margin-left:20px; float:left">添加商品类别</a>
+                <img style="width:35px;height:35px;margin-left:100px; margin-top:20px;" src="~/Image/AddShop.png" onclick="AddShop()" />
+                <img style="width:35px;height:35px;margin-left:50px; margin-top:20px;" src="~/Image/ShopType.png" onclick="ShopType()" />
                 @using (Ajax.BeginForm("Pager", new AjaxOptions { UpdateTargetId = "divData" }))
                 {
-                    <input style="margin-left:500px;margin-top:25px; width:200px;" class="layui-input"  id="Text1" type="text" name="Sname" placeholder="请输入要查询的商品名称" />
-                    <input id="Submit1" style="margin-left:720px; margin-top:-35px;" type="submit" value="查询" 	class="layui-btn layui-btn-radius layui-btn-primary" />
+                    <input style="margin-left: 500px; width: 200px; margin-top: -37px;" class="layui-input" id="Text1" type="text" name="Sname" placeholder="请输入要查询的商品名称" />
+                    <input id="Submit1" style="margin-left:720px; margin-top:-56px;" type="submit" value="查询" class="layui-btn layui-btn-radius layui-btn-primary" />
                 }
-                <hr />
+                <hr class="layui-bg-orange">
                 <div id="divbottom">
                     @foreach (var item in (List<Shop>)ViewBag.Shop)
                     {
                         <div id="divShop">
 
                             <img src="@item.Simg" class="img" />
-                            <h2 class="Price">@item.Sprice</h2>
-                            <h3 class="Name">@item.Sname</h3>
-                            <span>@item.Sid</span>
+                            <span class="Price">@item.Sprice￥</span>
+                            <span class="Name" style="margin-left:34px">@item.Sname</span>
                             <i style="margin-left:80px;" class="layui-icon layui-icon-edit" onclick="Bj(@item.Sid)"></i>
                             <i class="layui-icon layui-icon-close" onclick="Xj(@item.Sid)"></i>
                             <br>
@@ -86,14 +92,12 @@
                     }
                 </div>
             </div>
-            <div style="float:left;margin-top:500px;margin-left:180px;">@Ajax.ActionLink("首页", "Pager", new { @pageIndex = 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-            <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("上一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) - 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-            <div style="        float: left;
-        margin-top: 500px;
-        margin-left: 20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-            <div style="float:left;margin-top:500px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-        </div>
+            <div style="float:left;margin-top:550px;margin-left:180px;">@Ajax.ActionLink("首页", "Pager", new { @pageIndex = 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="float:left;margin-top:550px;margin-left:20px;">@Ajax.ActionLink("上一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) - 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="float: left;margin-top: 550px;margin-left: 20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+        <div style="float:left;margin-top:550px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
     </div>
+</div>
 </div>
 <script>
     var n = 1;
@@ -116,5 +120,11 @@
                 }
             }
         })
+    }
+    function AddShop() {
+        location.href = 'https://localhost:44346/Shop/ShopInsert';
+    }
+    function ShopType() {
+        location.href = 'https://localhost:44346/Shop/ShopType';
     }
 </script>

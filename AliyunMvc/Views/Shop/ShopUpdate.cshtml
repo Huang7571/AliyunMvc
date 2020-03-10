@@ -161,7 +161,7 @@
     function AddShop() {
         var obj = {
             Sid: id,
-            Stype: $('input[name="Six"]:checked').val() == "on" ? false : true,
+            Stype: $('input[name="Six"]:checked').val() == true ? 0 :1,
             Sname: $("#txtName").val(),
             Stitle: $("#txttitle").val(),
             Scolor: $("#txtColor").val(),
