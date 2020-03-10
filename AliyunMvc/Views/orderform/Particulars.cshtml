@@ -1,0 +1,353 @@
+﻿
+@{
+    ViewBag.Title = "Particulars";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+
+<script src="~/Scripts/vue.js"></script>
+<script src="~/Scripts/vue-resource.js"></script>
+
+<div style="width:1180px;height:1000px;background-color:#cceeeb">
+    <div style="width:1100px;height:75px;background-color:#ffffff">
+        <div>
+            <h4 style="line-height:66px;margin-left:30px;float:left" onclick="dingdanguanli()">订单管理</h4>
+            <img src="~/Content/imsg/shu.png" style="float:left" />
+            <img src="~/Content/imsg/piliang.png" style="float:left" />
+            <div style="width:500px;height:75px;float:left;margin-left:150px;">
+                <fieldset class="layui-elem-field">
+                    <legend>搜索 - 请输入搜索内容</legend>
+                    <div class="layui-field-box">
+                        内容区域
+                    </div>
+                </fieldset>
+            </div>
+            <img src="~/Content/imsg/sousuo.png" style="float:left;margin-left:10px;margin-top:5px;" />
+
+            <img src="~/Content/imsg/paixu.png" style="float:left;margin-top:4px;margin-left:10px;" />
+        </div>
+    </div>
+
+    <div id="app" style="width:1020px;height:900px;background-color:#ffffff;margin-top:50px;margin-left:30px;border-radius: 10px;" v-for="item in list" key="item.OF_Id">
+        <div style="width:980px;height:50px;background-color:#ffffff;margin-top:15px;margin-left:18px;float:left;">
+            <img src="~/Content/imsg/yuandian.png" style="float:left;margin-left:20px;margin-top:7px;" />
+            <h4 style="float:left;margin-left:22px;margin-top:14px;" onclick="dingdanguanli()">订单管理</h4>
+            <p style="float:left;margin-left:0px;margin-top:14px;">&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;</p>
+            <h4 style="color:#808080;float:left;margin-left:0px;margin-top:14px;">订单详情</h4>
+        </div>
+        <div style="width:980px;height:110px;background-color:#e7eee7;margin-top:10px;margin-left:18px;float:left;border-radius: 8px;border:solid 2px #99bcb3;">
+            <h4 style="float:left;margin-left:22px;margin-top:14px;font-weight:bold;">当前订单状态:&nbsp;&nbsp;<span style="color:blue" v-model="status">{{item.status}}</span></h4>
+            <div style="float:left;margin-left:22px;margin-top:14px;width:900px;height:50px;">
+                <input id="Button1" class="layui-btn layui-btn-radius layui-btn-normal" type="button" onclick="fahuo({{item.OF_Id}})" value="发货" />
+                <input id="Button1" class="layui-btn layui-btn-radius layui-btn-primary" type="button" onclick="fahuo({{item.OF_Id}})" value="修改发货地址" />
+                <input id="Button1" class="layui-btn layui-btn-radius layui-btn-primary" type="button" onclick="quxiao()" value="取消订单" />
+            </div>
+        </div>
+        <div style="width:980px;height:500px;float:left;margin-top:10px;margin-left:18px;">
+            <div class="layui-tab">
+                <ul class="layui-tab-title">
+                    <li class="layui-btn layui-btn-radius layui-btn-normal">订单详情</li>
+                    <li class="layui-btn layui-btn-radius layui-btn-normal">收货与物流信息</li>
+                </ul>
+                <div class="layui-tab-content">
+                    @*左边显示框*@
+                    <div class="layui-tab-item layui-show">
+                        <div style="width:980px;height:550px;float:left;margin-top:10px;border-radius: 5px;border:solid 2px blue;margin-left:-8px">
+                            @*买家信息*@
+                            <img src="~/Content/imsg/shugang.png" style="float:left;margin-top:7px;margin-left:7px;" />
+                            <h4 style="float:left;margin-left:8px;margin-top:14px;font-weight:bold;float:left">买家信息</h4>
+                            <div class="cc"><h4 style="font-weight:bold;color:#99bcb3;">用户名:&nbsp;&nbsp;<span style="color:blue" v-model="OF_consignee">{{item.OF_consignee}}</span></h4></div>
+                            <div class="cc"><h4 style="font-weight:bold;color:#99bcb3;float:left">手机号码:&nbsp;&nbsp;<span style="color:blue">{{item.OF_phonenumber}}</span></h4></div>
+                            <div class="cc"><h4 style="font-weight:bold;color:#99bcb3;float:left">所在地区:&nbsp;&nbsp;<span style="color:blue">{{item.OF_site}}</span></h4></div>
+                            @*横虚线*@
+                            <div class="text1"></div>
+                            @*订单信息*@
+                            <div style="width:980px;height:150px;float:left;">
+                                <div class="xinxi">
+                                    <img src="~/Content/imsg/shugang.png" style="float:left;margin-top:7px;margin-left:7px;" />
+                                    <h4 style="float:left;margin-left:8px;margin-top:14px;font-weight:bold;float:left">订单信息</h4>
+                                </div>
+                                <div class="xinxi">
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;">订单编号:&nbsp;&nbsp;<span style="color:blue">{{item.OF_Id}}</span></h4></div>
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;float:left">订单类型:&nbsp;&nbsp;<span style="color:blue">{{item.OF_Type}}</span></h4></div>
+                                </div>
+                                <div class="xinxi">
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;">创建时间:&nbsp;&nbsp;<span style="color:blue">{{item.OF_establishdatetime}}</span></h4></div>
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;float:left">付款时间:&nbsp;&nbsp;<span style="color:blue">{{item.OF_paymentdatetime}}</span></h4></div>
+                                </div>
+                                <div class="xinxi">
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;">交易号:&nbsp;&nbsp;<span style="color:blue">{{item.transactions}}</span></h4></div>
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;float:left">付款方式:&nbsp;&nbsp;<span style="color:blue">{{item.OF_paymode}}</span></h4></div>
+                                    <div class="xinxi1"><h4 style="font-weight:bold;color:#99bcb3;float:left">付款流水:&nbsp;&nbsp;<span style="color:blue">{{item.OF_paywater}}</span></h4></div>
+                                </div>
+                            </div>
+                            @*商品图片展示*@
+                            <div style="width:960px;height:140px;border-radius: 6px;margin-top:100px;box-shadow:4px 4px 6px #666;float:left;margin-left:8px;">
+                                @*头部盒子*@
+                                <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                                    <span class="ziju">商品信息</span>
+                                    <span class="guige">规格</span>
+                                    <span class="dan">单价</span>
+                                    <span class="dan">数量</span>
+                                    <span class="dan">商品总价</span>
+                                </div>
+                                @*主体*@
+                                <div style="width:960px;height:110px;background-color:#eaeff0;">
+                                    <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                        @*图片*@
+                                        <div class="tu">
+                                            <img src="{{item.Simg}}" class="yifu" />
+                                        </div>
+                                        <div class="biaoti">{{item.Sname}}</div>
+                                    </div>
+                                    <div class="biaoge"><span class="biaozi">{{item.Ssnum}}</span></div>
+                                    <div class="biaoge"><span class="biaozi">{{item.Sprice}}</span></div>
+                                    <div class="biaoge"><span class="biaozi">{{item.OF_Count}}</span></div>
+                                    <div class="biaoge"><span class="biaozi">{{item.OF_Money}}</span></div>
+                                </div>
+                            </div>
+                            @*价格*@
+                            <div style="width:150px;height:50px;margin-left:745px;margin-top:20px;float:left">
+                                <h4 style="font-weight:bold;float:left">实收款:&nbsp;&nbsp;￥<span style="color:red">{{item.OF_Money}}</span></h4>
+                                <h4 style="font-weight:bold;color:#99bcb3;float:left">含运费:&nbsp;&nbsp;<span style="color:#99bcb3">{{item.OF_freight}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                    @*右边显示框*@
+                    <div class="layui-tab-item">
+                        <div style="width:980px;height:100px;float:left;margin-top:10px;border-radius: 5px;border:solid 2px blue;margin-left:-8px">
+                            <img src="~/Content/imsg/shugang.png" style="float:left;margin-top:7px;margin-left:7px;" />
+                            <h4 style="float:left;margin-left:8px;margin-top:14px;font-weight:bold;">物流信息</h4>
+                            <h4 style="margin-left:30px;margin-top:43px;font-weight:bold;">收货地址:&nbsp;&nbsp;<span style="color:blue">{{item.OF_site}}</span></h4>
+                            <h4 style="margin-left:30px;margin-top:14px;font-weight:bold;">运送方式:&nbsp;&nbsp;<span style="color:blue">快递</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .cc {
+        float: left;
+        width: 180px;
+        height: 30px;
+        margin-left: 0px;
+        margin-top: 45px;
+    }
+
+    .text1 {
+        float: left;
+        color: #fcfefe;
+        background-color: #fcfefe;
+        border: #006699;
+        border-style: dashed;
+        border-top-width: 0px;
+        border-right-width: 0px;
+        border-bottom-width: 2px;
+        border-left-width: 0px;
+        width: 840px;
+        margin-left: 40px;
+    }
+
+    .xinxi {
+        width: 980px;
+        height: 40px;
+        margin-top: 2px;
+    }
+
+    .xinxi1 {
+        float: left;
+        width: 250px;
+        height: 30px;
+        margin-left: 30px;
+        margin-top: 10px;
+    }
+    /*@*商品图片展示*@*/
+    .ziju {
+        margin-left: 215px;
+        margin-top: 10px;
+        font-weight: bold;
+        line-height: 30px;
+    }
+
+    .guige {
+        margin-left: 278px;
+        margin-top: 10px;
+        font-weight: bold;
+        line-height: 30px;
+    }
+
+    .dan {
+        margin-left: 77px;
+        margin-top: 10px;
+        font-weight: bold;
+        line-height: 30px;
+    }
+
+    .tu {
+        float: left;
+        width: 90px;
+        height: 90px;
+        margin-left: 30px;
+        margin-top: 10px;
+        /*background-color:antiquewhite;*/
+        border-radius: 10px;
+    }
+
+    .biaoti {
+        float: left;
+        width: 360px;
+        height: 40px;
+        margin-left: 20px;
+        margin-top: 35px;
+        font-weight: bold;
+        /*background-color:aqua;*/
+    }
+
+    .yifu {
+        width: 90px;
+        height: 90px;
+        border-radius: 10px;
+    }
+
+    .biaoge {
+        width: 110px;
+        height: 110px;
+        background-color: #f2f4f5;
+        margin-left: 2px;
+        float: left;
+    }
+    .biaozi {
+        margin-left: 40px;
+        margin-top: 110px;
+        font-weight: bold;
+        line-height: 100px;
+        color:#99bcb3;
+    }
+</style>
+
+<script>
+    var id;
+    var path = location.search;
+    var index = path.indexOf("=");
+    id = path.substr(index + 1);
+
+    // 如果我们通过全局配置了，请求的数据接口 根域名，则 ，在每次单独发起 http 请求的时候，请求的 url 路径，应该以相对路径开头，前面不能带 /  ，否则 不会启用根路径做拼接；
+    Vue.http.options.root = 'https://localhost:44340/api/OrderForm2/';
+
+    // 全局启用 emulateJSON 选项:如果Web服务器无法处理编码为application/json的请求，你可以启用emulateJSON选项。
+    Vue.http.options.emulateJSON = true;
+
+    //var vm = new Vue({
+    //    el: '#app',
+    //    data: {
+    //        status: '',
+    //        OF_consignee: '',
+    //        OF_phonenumber: '',
+    //        OF_site: '',
+    //        OF_Id: '',
+    //        OF_Type: '',
+    //        OF_establishdatetime: '',
+    //        OF_paymentdatetime: '',
+    //        transactions: '',
+    //        OF_paymode: '',
+    //        OF_paywater: '',
+    //        Simg: '',
+    //        Ssnum: '',
+    //        Sprice: '',
+    //        OF_Count: '',
+    //        OF_Money: '',
+    //        OF_freight: '',
+    //    },
+    //    created() { // 当 vm 实例 的 data 和 methods 初始化完毕后，vm实例会自动执行created 这个生命周期函数
+    //        var id = location.hash.substring(id) // 去掉 #
+    //        this.$http.get('Getbufen/' + id).then(result => {
+    //            // 注意： 通过 $http 获取到的数据，都在 result.body 中放着
+    //            var result = result.body
+    //            if (result.code === 200) {
+    //                // 成功了
+    //                this.status = result.data.status
+    //                alert(this.status)
+    //                this.OF_consignee = result.data.OF_consignee
+    //                this.OF_phonenumber = result.data.OF_phonenumber
+    //                this.OF_site = result.data.OF_site
+    //                this.OF_Id = result.data.OF_Id
+    //                this.OF_Type = result.data.OF_Type
+    //                this.OF_establishdatetime = result.data.OF_establishdatetime
+    //                this.OF_paymentdatetime = result.data.OF_paymentdatetime
+    //                this.transactions = result.data.transactions
+    //                this.OF_paymode = result.data.OF_paymode
+    //                this.OF_paywater = result.data.OF_paywater
+    //                this.Simg = result.data.Simg
+    //                this.Ssnum = result.data.Ssnum
+    //                this.Sprice = result.data.Sprice
+    //                this.OF_Count = result.data.OF_Count
+    //                this.OF_Money = result.data.OF_Money
+    //                this.OF_freight = result.data.OF_freight
+    //            } else {
+    //                // 失败了
+    //                alert('获取数据失败！')
+    //            }
+    //        })
+    //    }
+    //})
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            searchId: '',// 搜索用的
+            list: [] // 存放列表数据
+        },
+        created() { // 当 vm 实例 的 data 和 methods 初始化完毕后，vm实例会自动执行created 这个生命周期函数
+            this.getAllList()
+        },
+        methods: {
+            getAllList() {
+                // 由于已经导入了 Vue-resource这个包，所以 ，可以直接通过  this.$http 来发起数据请求
+                this.$http.get('Getbufen?id='+id).then(result => {
+                    // 注意： 通过 $http 获取到的数据，都在 result.body 中放着
+                    var result = result.body
+                    if (result.code === 200) {
+                        // 成功了
+                        console.log(result.data)
+                        this.list = result.data
+                        console.log(result.data)
+                    } else {
+                        // 失败了
+                        alert('获取数据失败！')
+                    }
+                })
+            }
+        }
+    })
+    
+
+    function quxiao() {
+        var obj = {
+            OF_status: 6,
+            OF_Id: id
+        }
+
+        $.ajax({
+            url: "https://localhost:44340/api/orderform2/Post",
+            data: obj,
+            type: "post",
+            success: function (d) {
+                if (d > 0) {
+                    alert("订单已取消")
+                }
+            }
+        })
+    }
+
+    function dingdanguanli() {
+        location.href = "/orderform/statedispose";
+    }
+    function fahuo(id) {
+        location.href = "/orderform/Phipments?id="+id;
+    }
+</script>

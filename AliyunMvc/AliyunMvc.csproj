@@ -124,11 +124,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HttpClientHelper.cs" />
     <Compile Include="Controllers\LognController.cs" />
+    <Compile Include="Controllers\orderformController.cs" />
     <Compile Include="Controllers\PermissionMvcController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BigType.cs" />
+    <Compile Include="Models\Pager.cs" />
+    <Compile Include="Models\ReturnModel.cs" />
+    <Compile Include="Models\Shop.cs" />
+    <Compile Include="Models\SmallType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,12 +212,31 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\imsg\fahuo.png" />
+    <Content Include="Content\imsg\paixu.png" />
+    <Content Include="Content\imsg\piliang.png" />
+    <Content Include="Content\imsg\shu.png" />
+    <Content Include="Content\imsg\shugang.png" />
+    <Content Include="Content\imsg\sousuo.png" />
+    <Content Include="Content\imsg\xiangqing.png" />
+    <Content Include="Content\imsg\yifu.png" />
+    <Content Include="Content\imsg\yuandian.png" />
     <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="HtmlPage1.html" />
+    <Content Include="Image\1000.png" />
+    <Content Include="Image\1583423169404.93.png" />
+    <Content Include="Image\1583579660536.09.png" />
+    <Content Include="Image\1583579782006.09.png" />
+    <Content Include="Image\214232.jpg" />
+    <Content Include="Image\heipi.jpg" />
+    <Content Include="Image\hongqun.jpg" />
+    <Content Include="Image\u=2031002653,4107894782&amp;fm=111&amp;gp=0.jpg" />
+    <Content Include="Image\xiuxian.jpg" />
+    <Content Include="Image\yifu.png" />
     <Content Include="layui\css\layui.css" />
     <Content Include="layui\css\layui.mobile.css" />
     <Content Include="layui\css\modules\code.css" />
@@ -362,6 +387,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\vue-resource.js" />
+    <Content Include="Scripts\vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -385,10 +412,12 @@
     <Content Include="Views\PermissionMvc\Add.cshtml" />
     <Content Include="Views\Logn\Login.cshtml" />
     <Content Include="Views\Logn\ShouYe.cshtml" />
+    <Content Include="Views\orderform\Particulars.cshtml" />
+    <Content Include="Views\orderform\Phipments.cshtml" />
+    <Content Include="Views\orderform\statedispose.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>

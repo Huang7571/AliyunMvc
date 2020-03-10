@@ -1,0 +1,641 @@
+﻿
+@{
+    ViewBag.Title = "statedispose";
+    Layout = "~/Views/Shared/_LayoutMaster.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<script src="~/Scripts/vue.js"></script>
+<script src="~/Scripts/vue-resource.js"></script>
+
+<div style="width:1180px;height:1000px;background-color:#cceeeb" id="app">
+    <div style="width:1100px;height:75px;background-color:#ffffff">
+        <div>
+            <h4 style="line-height:66px;margin-left:30px;float:left">订单管理</h4>
+            <img src="~/Content/imsg/shu.png" style="float:left" />
+            <img src="~/Content/imsg/piliang.png" style="float:left" />
+            <div style="width:500px;height:75px;float:left;margin-left:150px;">
+                <fieldset class="layui-elem-field">
+                    <legend>搜索 - 请输入搜索内容</legend>
+                    <div class="layui-field-box">
+                        <input id="cha" v-model="searchId" type="text" class="bian" placeholder="请输入商品名称" />
+                    </div>
+                </fieldset>
+            </div>
+            <img src="~/Content/imsg/sousuo.png" style="float:left;margin-left:10px;margin-top:5px;" v-on:click="search()" />
+            @*<button id="btn2" class="layui-btn" @click.prevent="search()">搜索</button>*@
+            <img src="~/Content/imsg/paixu.png" style="float:left;margin-top:4px;margin-left:10px;" onclick="search()" />
+        </div>
+    </div>
+
+    <div style="width:1020px;height:900px;background-color:#ffffff;margin-top:50px;margin-left:30px;border-radius: 10px;">
+        <div style="width:980px;height:20px;"></div>
+        <div class="layui-tab" style="width:980px;height:848px;margin-top:30px;margin-left:20px;">
+            <ul class="layui-tab-title">
+                <li class="layui-this" style="width:100px;" onclick="bianse()"><a href="javascript:HideOrShowFont('a7')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(0)" id="a7">全部</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a1')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(1)" id="a1">待处理</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a2')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(2)" id="a2">揽货中</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a3')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(4)" id="a3">取消待审</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a4')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(3)" id="a4">已发货</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a5')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(5)" id="a5">已完成</a></li>
+                <li style="width:100px;"><a href="javascript:HideOrShowFont('a6')" style="font-weight:bold;font-size:15px;" v-on:click="zhuangtai(6)" id="a6">退货</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                @*全部*@
+                <div class="layui-tab-item layui-show">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <page total='total' current-index="currentIndex" listLen='listLen' v-on:click='getPage()'></page>
+                    <ul class="item" style="float:left">
+                        <li v-on:click="start()" style="float:left">首页</li>
+                        <li v-on:click="pre()" style="float:left"><a href="javascript:;" rel="external nofollow"><<</a></li>  @*上一列表页*@
+                        <li v-on:click="currentPre()"><a href="javascript:;" rel="external nofollow"><</a></li>   @*点解当前列表页上一页*@
+                        <li v-for="(item,index) in arr" class="{active: item===num}" v-on:click="getPage(item)">{{item}}</li>
+                        <li v-on:click="currentNext()"><a href="javascript:;" rel="external nofollow">></a></li>  @*点解当前列表页下一页*@
+                        <li v-on:click="next()"><a href="javascript:;" rel="external nofollow">>></a></li>  @*下一列表页*@
+                        <li v-on:click="end()">尾页</li>
+                    </ul>
+
+                </div>
+                @*待处理*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*揽货中*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*取消待审*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*已发货*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*已完成*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*已关闭*@
+                <div class="layui-tab-item">
+                    @*标题框*@
+                    <div style="width:980px;height:40px;">
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:232px;color:#635b62;">订单信息</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:242px;color:#635b62;">订单总额</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">交易状态</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">收货人</h4>
+                        <h4 style="line-height:42px;float:left;font-weight:bold;margin-left:68px;color:#635b62;">操作</h4>
+                    </div>
+                    @*显示数据*@
+                    <div style="width:960px;height:140px;border-radius: 6px;margin-top:20px;box-shadow:4px 4px 6px #666;float:left;" v-for="item in list" key="item.OF_Id">
+                        @*头部盒子*@
+                        <div style="width:960px;height:30px;background-color:#d1f2f4;">
+                            <span class="touhe">{{item.OF_establishdatetime}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="touhe" style="font-weight: bold;">订单编号:</span>&nbsp;
+                            <span class="touhe">{{item.OF_Id}}</span>
+                        </div>
+                        @*主体*@
+                        <div style="width:960px;height:110px;background-color:#eaeff0;">
+                            <div style="width:512px;height:110px;background-color:#f2f4f5;float:left;">
+                                @*图片*@
+                                <div class="tu">
+                                    <img src="{{item.Simg}}" class="yifu" />
+                                </div>
+                                <div class="biaoti">{{item.Sname}}</div>
+                                <div class="shuliang">共<span>{{item.OF_Count}}</span>件</div>
+                                <span class="miao">{{item.Sdescribe}}</span>
+                            </div>
+                            <div class="biaoge"><span class="biaozi">￥{{item.Sprice}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.status}}</span></div>
+                            <div class="biaoge"><span class="biaozi">{{item.OF_consignee}}</span></div>
+                            <div class="biaoge">
+                                <img src="~/Content/imsg/xiangqing.png" class="xiangdian" onclick="xiangqing({{item.OF_Id}})" />
+                                <img src="~/Content/imsg/fahuo.png" class="fadian" onclick="fahuo({{item.OF_Id}})" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function () {
+        var element = layui.element;
+
+        //…
+    });
+    function bianse() {
+
+    }
+
+    function HideOrShowFont(obj) {
+        if (obj == "a7") {
+            document.getElementById("a7").style.color = "#2577e3";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a1").style.color = "#333";
+        }
+        else if (obj == 'a1') {
+            document.getElementById("a1").style.color = "#2577e3";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a7").style.color = "#333";
+        }
+        else if (obj == 'a2') {
+            document.getElementById("a7").style.color = "#333";
+            document.getElementById("a2").style.color = "#2577e3";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a1").style.color = "#333";
+        }
+        else if (obj == 'a3') {
+            document.getElementById("a1").style.color = "#333";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#2577e3";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a7").style.color = "#333";
+        }
+        else if (obj == 'a4') {
+            document.getElementById("a1").style.color = "#333";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#2577e3";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a7").style.color = "#333";
+        }
+        else if (obj == 'a5') {
+            document.getElementById("a1").style.color = "#333";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#2577e3";
+            document.getElementById("a6").style.color = "#333";
+            document.getElementById("a7").style.color = "#333";
+        }
+        else if (obj == 'a6') {
+            document.getElementById("a1").style.color = "#333";
+            document.getElementById("a2").style.color = "#333";
+            document.getElementById("a3").style.color = "#333";
+            document.getElementById("a4").style.color = "#333";
+            document.getElementById("a5").style.color = "#333";
+            document.getElementById("a6").style.color = "#2577e3";
+            document.getElementById("a7").style.color = "#333";
+        }
+    }
+    ////详情的点击事件
+    function xiangqing(id) {
+        location.href = "/orderform/Particulars?id=" + id;
+    }
+    //跳转到发货界面
+    function fahuo(id) {
+        location.href = "/orderform/Phipments?id=" + id;
+    }
+</script>
+<style>
+    .bian {
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        border-bottom: #8D8D8D 1px solid;
+        box-shadow: 0px 0px 0px 0px;
+    }
+
+    .miao {
+        /*width: 200px;
+        height: 30px;*/
+        /*background-color: aquamarine;*/
+        margin-top: 0px;
+        margin-left: 22px;
+        line-height: 20px;
+        color: #94a8a7;
+    }
+
+    .biaoge {
+        width: 110px;
+        height: 110px;
+        background-color: #f2f4f5;
+        margin-left: 2px;
+        float: left;
+    }
+
+    .tu {
+        float: left;
+        width: 90px;
+        height: 90px;
+        margin-left: 30px;
+        margin-top: 10px;
+        /*background-color:antiquewhite;*/
+        border-radius: 10px;
+    }
+
+    .biaoti {
+        float: left;
+        width: 300px;
+        height: 20px;
+        margin-left: 20px;
+        margin-top: 35px;
+        font-weight: bold;
+        /*background-color:aqua;*/
+    }
+
+    .shuliang {
+        float: left;
+        width: 60px;
+        height: 40px;
+        margin-left: 0px;
+        margin-top: 35px;
+        font-weight: bold;
+    }
+
+    .yifu {
+        width: 90px;
+        height: 90px;
+        border-radius: 10px;
+    }
+
+    .biaozi {
+        margin-left: 40px;
+        margin-top: 107px;
+        font-weight: bold;
+        line-height: 100px;
+        color: #99bcb3;
+    }
+
+    .xiangdian {
+        float: left;
+        margin-left: 23px;
+        margin-top: 40px;
+    }
+
+    .fadian {
+        float: left;
+        margin-left: 15px;
+        margin-top: 40px;
+    }
+
+    .touhe {
+        color: #94a8a7;
+        line-height: 30px;
+        margin-left: 17px;
+        margin-top: 0px;
+    }
+
+    .scroll {  
+        width: 50%;                                     /*宽度*/  
+        height: 200px;                                  /*高度*/  
+        color: ;                                        /*颜色*/  
+        font-family: ;                                  /*字体*/  
+        padding-left: 10px;                             /*层内左边距*/  
+        padding-right: 10px;                            /*层内右边距*/  
+        padding-top: 10px;                              /*层内上边距*/  
+        padding-bottom: 10px;                           /*层内下边距*/  
+        overflow-x: scroll;                             /*横向滚动条(scroll:始终出现;auto:必要时出现;具体参考CSS文档)*/  
+        overflow-y: scroll;                             /*竖向滚动条*/  
+          
+        scrollbar-face-color: #D4D4D4;                  /*滚动条滑块颜色*/  
+        scrollbar-hightlight-color: #ffffff;                /*滚动条3D界面的亮边颜色*/  
+        scrollbar-shadow-color: #919192;                    /*滚动条3D界面的暗边颜色*/  
+        scrollbar-3dlight-color: #ffffff;               /*滚动条亮边框颜色*/  
+        scrollbar-arrow-color: #919192;                 /*箭头颜色*/  
+        scrollbar-track-color: #ffffff;                 /*滚动条底色*/  
+        scrollbar-darkshadow-color: #ffffff;                /*滚动条暗边框颜色*/  
+    }  
+</style>
+<script>
+
+        // 如果我们通过全局配置了，请求的数据接口 根域名，则 ，在每次单独发起 http 请求的时候，请求的 url 路径，应该以相对路径开头，前面不能带 /  ，否则 不会启用根路径做拼接；
+        Vue.http.options.root = 'https://localhost:44340/api/orderform/';
+
+        // 全局启用 emulateJSON 选项:如果Web服务器无法处理编码为application/json的请求，你可以启用emulateJSON选项。
+        Vue.http.options.emulateJSON = true;
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                searchId: '',// 搜索用的
+                list: [] // 存放列表数据
+            },
+            created() { // 当 vm 实例 的 data 和 methods 初始化完毕后，vm实例会自动执行created 这个生命周期函数
+                this.getAllList()
+            },
+            methods: {
+                getAllList() {
+                    // 由于已经导入了 Vue-resource这个包，所以 ，可以直接通过  this.$http 来发起数据请求
+                    this.$http.get('Getorderform').then(result => {
+                        // 注意： 通过 $http 获取到的数据，都在 result.body 中放着
+                        var result = result.body
+                        if (result.code === 200) {
+                            // 成功了
+                            console.log(result.data)
+                            this.list=[]
+                            this.list = result.data
+
+                            //var newList = [];
+                            //this.newList = result.data
+                            //this.newList.forEach(item=> {
+                            //
+                            //        list.push(item)
+                            //
+                            //})
+                            //this.list = newList
+                            console.log(list)
+                            //return newList;
+
+
+                        } else {
+                            // 失败了
+                            alert('获取数据失败！')
+                        }
+                    })
+                },
+                search() {
+
+                    this.$http.get('Getorderform?searchId=' + this.searchId).then(result => {
+                        var result = result.body
+                        if (result.code === 200) {
+                            this.list = []
+                            this.list = result.data
+                        } else {
+                            alert('查找失败！')
+                        }
+                    })
+                },
+                zhuangtai(d) {
+                    this.$http.get('Getorderform?stata=' + d).then(result => {
+                        var result = result.body
+                        if (result.code === 200) {
+                            this.list = []
+                            this.list = result.data
+                        } else {
+                            alert('查找失败！')
+                        }
+                    })
+                }
+
+            }
+        })
+
+
+    function search() {
+        alert(1)
+    }
+</script>
+
+
+
+<script>
+
+    var startX,//触摸时的坐标
+    startY,
+    x, //滑动的距离
+    y,
+    aboveY = 0; //设一个全局变量记录上一次内部块滑动的位置
+
+    var inner = document.getElementById("inner");
+    function touchSatrt(e) {//触摸
+        e.preventDefault();
+        var touch = e.touches[0];
+        startY = touch.pageY; //刚触摸时的坐标
+    }
+
+    function touchMove(e) {//滑动
+        e.preventDefault();
+        var touch = e.touches[0];
+        y = touch.pageY - startY;//滑动的距离
+        //inner.style.webkitTransform = 'translate(' + 0+ 'px, ' + y + 'px)'; //也可以用css3的方式
+        inner.style.top = aboveY + y + "px"; //这一句中的
+    }
+
+    function touchEnd(e) {//手指离开屏幕
+        e.preventDefault();
+        aboveY = parseInt(inner.style.top);//touch结束后记录内部滑块滑动的位置 在全局变量中体现 一定要用parseInt()将其转化为整数字;
+
+    }//
+    document.getElementById("outer").addEventListener('touchstart', touchSatrt, false);
+    document.getElementById("outer").addEventListener('touchmove', touchMove, false);
+    document.getElementById("outer").addEventListener('touchend', touchEnd, false);
+</script>
