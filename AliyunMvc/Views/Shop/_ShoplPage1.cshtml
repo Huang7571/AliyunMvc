@@ -52,7 +52,7 @@
 
     .Price {
         margin-left: 30px;
-        color: #f5d210
+        color: #f5d210;
     }
 
     .Name {
@@ -85,8 +85,9 @@
                             <img src="@item.Simg" class="img" />
                             <span class="Price">@item.Sprice￥</span>
                             <span class="Name" style="margin-left:34px">@item.Sname</span>
-                            <i style="margin-left:80px;" class="layui-icon layui-icon-edit" onclick="Bj(@item.Sid)"></i>
-                            <i class="layui-icon layui-icon-close" onclick="Xj(@item.Sid)"></i>
+                            <p></p>
+                            <i style="margin-left:70px;" class="layui-icon layui-icon-edit" onclick="Bj(@item.Sid)"></i>
+                            <i style="margin-left:10px;" class="layui-icon layui-icon-delete" onclick="Xj(@item.Sid)"></i>
                             <br>
                         </div>
                     }
@@ -95,9 +96,9 @@
             <div style="float:left;margin-top:550px;margin-left:180px;">@Ajax.ActionLink("首页", "Pager", new { @pageIndex = 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
             <div style="float:left;margin-top:550px;margin-left:20px;">@Ajax.ActionLink("上一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) - 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
             <div style="float: left;margin-top: 550px;margin-left: 20px;">@Ajax.ActionLink("下一页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pageIndex"]) + 1 }, new AjaxOptions { UpdateTargetId = "divData" })</div>
-        <div style="float:left;margin-top:550px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+            <div style="float:left;margin-top:550px;margin-left:20px;">@Ajax.ActionLink("尾页", "Pager", new { @pageIndex = Convert.ToInt32(Session["pagerLast"]) }, new AjaxOptions { UpdateTargetId = "divData" })</div>
+        </div>
     </div>
-</div>
 </div>
 <script>
     var n = 1;
@@ -109,17 +110,23 @@
     }
     //下架
     function Xj(a) {
-        $.ajax({
-            url: "https://localhost:44340/api/Shop/GetDeleteShop",
-            type: "Get",
-            data: { id: a },
-            success: function (d) {
-                if (d > 0) {
-                    alert("删除成功!");
-                    location.href = 'https://localhost:44346/Shop/ShopShow';
+        if (confirm("确认删除吗！")) {
+            $.ajax({
+                url: "https://localhost:44340/api/Shop/GetDeleteShop",
+                type: "Get",
+                data: { id: a },
+                success: function (d) {
+                    if (d > 0) {
+                        alert("删除成功!");
+                        location.href = 'https://localhost:44346/Shop/ShopShow';
+                    }
                 }
-            }
-        })
+            })
+        }
+        else {
+            return;
+        }
+
     }
     function AddShop() {
         location.href = 'https://localhost:44346/Shop/ShopInsert';
