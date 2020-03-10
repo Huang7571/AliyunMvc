@@ -3,7 +3,114 @@
     ViewBag.Title = "QuanXian";
     Layout = "~/Views/Shared/_LayoutMaster.cshtml";
 }
+<body>
+    @if (Session["MenuName"].ToString().Contains("添加用户"))
+    {
+        <input id="Button1" type="button" value="添加" class="layui-btn layui-btn-normal" onclick="Tj()" />
+    }
 
-<h2>QuanXian</h2>
-<span>母版页</span>
-<span>用户</span>
+    <input id="BUT" type="button" value="修改权限" class="layui-btn layui-btn-normal" onclick="XgQuan()" />
+    <table id="demo" lay-filter="test"></table>
+
+    <script>
+
+        Show();
+        function Show() {
+            layui.use('table', function () {
+                var table = layui.table;
+
+                //第一个实例
+                table.render({
+                    elem: '#demo'
+                    , height: 312
+                    , url: 'https://localhost:44340/Api/MerchantAPI/GetPage' //数据接口
+                    , page: true //开启分页
+                    , limit: 3
+                    , cols: [[ //表头
+                        { field: 'MerchantId', title: '编号', width: 80, sort: true, fixed: 'left' }
+                        , { field: 'MerchantName', title: '用户名', width: 80 }
+                        , { field: 'MerchantEmail', title: '邮箱', width: 80, sort: true }
+                        , { field: 'MerchantPwd', title: '密码', width: 80 }
+                        , { field: 'MerchantContent', title: '商家备注', width: 177 }
+                        , { field: 'MState', title: '状态', width: 80, sort: true }
+                        , { field: 'AdministratorName', title: '管理员名字', width: 80, sort: true }
+                        , { field: 'MerchantId', fixed: 'right', width: 230, align: 'center', toolbar: '#barDemo' } //这里的toolbar值是模板元素的选择器
+                    ]]
+
+                });
+                //监听工具条
+                table.on('tool(test)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+                    var data = obj.data; //获得当前行数据
+                    var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+                    var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+                    var id = data['MerchantId'];
+                    if (layEvent === 'detail') { //查看
+                        location.href = "";
+                    } else if (layEvent === 'del') { //删除
+                        
+                            if (confirm('是否要删除')) {
+                            alert(id);
+                            $.ajax({
+                                url: "https://localhost:44340/Api/MerchantAPI/DeleteMerchant?id=" + id,
+                                type: "post",
+                                success: function (d) {
+                                    alert('删除成功');
+                                    Show();
+                                }
+
+                            })
+                        }
+                        else {
+                            return;
+                        }
+                        
+                      
+
+
+
+
+
+                    } else if (layEvent === 'edit') { //编辑
+                        
+                            layer.open({
+                                type: 2,
+                                title: '用户信息',
+                                shadeClose: true,
+                                shade: false,
+                                maxmin: true, //开启最大化最小化按钮
+                                area: ['893px', '600px'],
+                                content: '/PermissionMvc/PerDeit?MerchantId=' + id
+                            });
+                        
+
+
+                    } else if (layEvent === 'LAYTABLE_TIPS') {
+                        layer.alert('Hi，头部工具栏扩展的右侧图标。');
+                    }
+                });
+            });
+        }
+
+
+
+
+    </script>
+    <script type="textml" id="barDemo">
+        @if (Session["MenuName"].ToString().Contains("编辑用户"))
+        {
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        }
+        @if (Session["MenuName"].ToString().Contains("删除用户"))
+        {
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        }
+    </script>
+</body>
+<script>
+    function XgQuan() {
+        location.href = '/PermissionMvc/Index'
+    }
+    function Tj() {
+        location.href = '/PermissionMvc/Add'
+    }
+</script>

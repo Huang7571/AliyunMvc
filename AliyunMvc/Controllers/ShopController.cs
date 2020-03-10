@@ -7,7 +7,6 @@ using System.Data;
 using Newtonsoft.Json;
 using AliyunMvc.Models;
 using System.IO;
-using Amazon.DeviceFarm.Model;
 
 namespace AliyunMvc.Controllers
 {

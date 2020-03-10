@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<h2>Login</h2>
+<html>
+<head>
+    <title>Login Form</title>
+    <meta http-equiv="Content-Type" content="textml; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/css/style.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="login">
+            <h1>管理系统</h1>
+            <div class="inset">
+                <!--start-main-->
+                <form>
+                    <div>
+                        <h2>管理登录</h2>
+                        <span><label>用户名</label></span>
+                        <span><input type="text" class="textbox" id="txtName" name="UserName"></span>
+                    </div>
+                    <div>
+                        <span><label>密码</label></span>
+                        <span><input type="password" class="password" id="txtPwd" name="UserPwd"></span>
+                    </div>
+                    <div>
+                        <input id="rd" type="checkbox" name="rd_S" />记住密码
+                    </div>
+                    <div class="sign">
+                        <input id="Button1" type="button" value="登陆" onclick="btnLogin()" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--//end-main-->
+    </div>
+
+    <div class="copy-right">
+        <p>&copy; 2015 Ethos Login Form. All Rights Reserved</p>
+
+    </div>
+    <div style="text-align:center;">
+        <p>更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
+    </div>
+</body>
+<ml>
+    <script>
+    var rootPath = '@Url.Content("~/Admin/")';
+    var username = '@ViewBag.UserName';
+    var password = '@ViewBag.UserPwd';
+    $(document).ready(function () {
+        if(username!="")
+        {
+            $("[name=UserName]").val(username);
+            $("[name=UserPwd]").val(password);
+            $("#rd").attr("checked", "checked");//当cookie记录了账号密码，则初始化‘记住账号密码’复选框时为勾选状态
+        }
+        else {
+            $("#rd").removeAttr("checked");
+        }
+    })
+    $("#Button1").click(function () {
+        var IsSaveLoginfo;
+        if ($("#rd").prop("checked")) {
+            IsSaveLoginfo = true;
+        }
+        var obj = {
+            MerchantName: $("[name=UserName]").val(),
+            MerchantPwd: $("[name=UserPwd]").val(),
+            IsSaveLoginfo:IsSaveLoginfo
+        }
+        $.ajax({
+            url: "/Logn/Login",
+            loading: "正在登录中...",
+            data: obj,
+            type:"post",
+            success: function (d) {
+                if(d>0)
+                {
+                    location.href = "/Logn/ShouYe";
+                }
+                else {
+                    alert("登录失败！");
+                }
+            }
+        })
+    })
+    </script>
+
